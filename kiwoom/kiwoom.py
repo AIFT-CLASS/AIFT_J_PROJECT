@@ -66,7 +66,7 @@ class Kiwoom(QAxWidget):
         self.detail_account_info() # 예수금 요청 시그널 포함
         self.detail_account_mystock() #계좌평가잔고내역 가져오기
         self.not_concluded_account() # 미체결
-        #self.calculator_fnc() # 코스닥갯수 - 일봉데이터 안가져오려면 주석처리하기
+        self.calculator_fnc() # 코스닥갯수 - 일봉데이터 안가져오려면 주석처리하기
 
         self.read_code()
         self.screen_number_setting()
@@ -337,8 +337,8 @@ class Kiwoom(QAxWidget):
                                 total_price += int(value[1])
                             moving_average_price_prev = total_price / 5
 
-                            if moving_average_price_prev <= int(self.calcul_data[idx][6]) and idx <= 3:
-                                print("3일 동안 주가가 이평선과 같거나 위에 있으면 조건 탈락")
+                            if moving_average_price_prev <= int(self.calcul_data[idx][6]) and idx <= 2:
+                                print("2일 동안 주가가 이평선과 같거나 위에 있으면 조건 탈락")
                                 price_top_moving = False
                                 break
                             elif int(self.calcul_data[idx][7]) > moving_average_price_prev and idx > 5:
@@ -381,7 +381,7 @@ class Kiwoom(QAxWidget):
         return code_list
 
     def calculator_fnc(self):  # 각 종목의 정보 가져오기
-        code_list = self.get_code_list_by_market("8")
+        code_list = self.get_code_list_by_market("10")
 
         print("코스피 갯수 %s " % len(code_list))
 
@@ -600,25 +600,25 @@ class Kiwoom(QAxWidget):
                     self.logging.logger.debug("매수주문 전달 실패")
 
             not_meme_list = list(self.not_account_stock_dict)    # 미체결 수량 매수 취소 236p 
-            # for order_num in not_meme_list:
-            #     code = self.not_account_stock_dict[order_num]["종목코드"]
-            #     meme_price = self.not_account_stock_dict[order_num]['주문가격']
-            #     not_quantity = self.not_account_stock_dict[order_num]['미체결수량']
-            #     order_gubun = self.not_account_stock_dict[order_num]['주문구분']
+            for order_num in not_meme_list:
+                code = self.not_account_stock_dict[order_num]["종목코드"]
+                meme_price = self.not_account_stock_dict[order_num]['주문가격']
+                not_quantity = self.not_account_stock_dict[order_num]['미체결수량']
+                order_gubun = self.not_account_stock_dict[order_num]['주문구분']
 
-            #     if order_gubun == "매수" and not_quantity > 0 and e > meme_price:
-            #         order_success = self.dynamicCall(
-            #             "SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)",
-            #             ["매수취소", self.portfolio_stock_dict[sCode]["주문용스크린번호"], self.account_num, 3, code, 0, 0, self.realType.SENDTYPE['거래구분']['지정가'], order_num]
-            #         )
+                if order_gubun == "매수" and not_quantity > 0 and e > meme_price:
+                    order_success = self.dynamicCall(
+                        "SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)",
+                        ["매수취소", self.portfolio_stock_dict[sCode]["주문용스크린번호"], self.account_num, 3, code, 0, 0, self.realType.SENDTYPE['거래구분']['지정가'], order_num]
+                    )
 
-            #         if order_success == 0:
-            #             self.logging.logger.debug("매수취소 전달 성공")
-            #         else:
-            #             self.logging.logger.debug("매수취소 전달 실패")
+                    if order_success == 0:
+                        self.logging.logger.debug("매수취소 전달 성공")
+                    else:
+                        self.logging.logger.debug("매수취소 전달 실패")
 
-            #     elif not_quantity == 0:
-            #         del self.not_account_stock_dict[order_num]
+                elif not_quantity == 0:
+                    del self.not_account_stock_dict[order_num]
 
     def chejan_slot(self, sGubun, nItemCnt, sFidList):
         if int(sGubun) == 0: #주문체결
