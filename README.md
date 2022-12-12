@@ -118,7 +118,7 @@ def screen_number_setting(self):
  def realdata_slot(self, sCode, sRealType, sRealData):   
  def file_delete(self):   
  ``` 
- ### 16. 로깅, 슬랙메세지 ( ~ 2022.11.30 ) 
+ ### 16. 로깅, 슬랙메세지, 파일 삭제하기 ( ~ 2022.11.30 ) 
 > 로깅 / 슬랙메세지 (노트북, 핸드폰 알람) 확인  
 * 슬랙메세지  
 >> https://api.slack.com/apps에서 토큰받기  
@@ -134,6 +134,14 @@ def screen_number_setting(self):
 >  
 > * config file  
 > log_class.py / slack.py  
+* 저장된 파일 삭제  
+> 장종료 후  저장된 파일 삭제  
+> 파일 존재 여부 파악  
+```python  
+os.path.isfile()  
+```  
+> 파일 존재 -> 해당 파일 지움   
+> 이유 : 다음 주식 장을 위해 종목된 분석들을 새로운 파일에 저장하기 위해서
 
 ### 17. 매수매도 오류 ( 2022.12.01 )
 > 로그 파일 확인 : 모의투자 정정 / 취소할 수량이 없습니다.  
