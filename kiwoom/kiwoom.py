@@ -66,7 +66,7 @@ class Kiwoom(QAxWidget):
         self.detail_account_info() # 예수금 요청 시그널 포함
         self.detail_account_mystock() #계좌평가잔고내역 가져오기
         self.not_concluded_account() # 미체결
-        self.calculator_fnc() # 코스닥갯수 - 일봉데이터 안가져오려면 주석처리하기
+        #self.calculator_fnc() # 코스닥갯수 - 일봉데이터 안가져오려면 주석처리하기
 
         self.read_code()
         self.screen_number_setting()
@@ -581,7 +581,7 @@ class Kiwoom(QAxWidget):
                     else:
                         self.logging.logger.debug("매도주문 전달 실패")
 
-            elif d > 1.0 and sCode not in self.jango_dict:  # 지정가로 종목 매수 230p // 242p 에서 elif로 변경
+            elif d > 3.0 and sCode not in self.jango_dict:  # 지정가로 종목 매수 230p // 242p 에서 elif로 변경
                 self.logging.logger.debug("매수조건 통과 %s " % sCode)
 
                 result = (self.use_money * 0.1) / e
