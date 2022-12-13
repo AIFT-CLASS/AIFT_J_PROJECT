@@ -66,7 +66,7 @@ class Kiwoom(QAxWidget):
         self.detail_account_info() # 예수금 요청 시그널 포함
         self.detail_account_mystock() #계좌평가잔고내역 가져오기
         self.not_concluded_account() # 미체결
-        #self.calculator_fnc() # 코스닥갯수 - 일봉데이터 안가져오려면 주석처리하기
+        self.calculator_fnc() # 코스닥갯수 - 일봉데이터 안가져오려면 주석처리하기
 
         self.read_code()
         self.screen_number_setting()
@@ -499,7 +499,7 @@ class Kiwoom(QAxWidget):
 
                 QTest.qWait(5000)
 
-                # self.file_delete()  # 종목 분석 266p
+                self.file_delete()  # 종목 분석 266p
                 self.calculator_fnc()
 
                 sys.exit()  # 프로그램 자동 종료
